@@ -88,7 +88,7 @@ def download_data(currency, start_date, end_date):
       print(e)
       sys.exit(1)
 
-  return html
+  return html.decode("UTF-8")
 
 
 def extract_data(html):
@@ -111,7 +111,7 @@ def extract_data(html):
   # strip commas
   rows = []
   for row in raw_rows:
-    row = [ field.translate(None, ',') for field in row ]
+    row = [ re.sub(",", "", field) for field in row ]
     rows.append(row)
 
   # calculate averages
