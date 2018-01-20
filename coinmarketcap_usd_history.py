@@ -8,7 +8,7 @@ CoinMarketCap USD Price History
 
 import sys
 import re
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import argparse
 import datetime
 
@@ -54,7 +54,7 @@ def parse_options(args):
   invalid_args = invalid_args or end_year   < start_year
 
   if invalid_args:
-    print('Usage: ' + __file__ + ' <currency> <start_date> <end_date> --dataframe')
+    print(('Usage: ' + __file__ + ' <currency> <start_date> <end_date> --dataframe'))
     sys.exit(1)
 
   start_date = start_date_split[0]+ start_date_split[1] + start_date_split[2]
@@ -72,18 +72,18 @@ def download_data(currency, start_date, end_date):
                                                 + start_date + '&end=' + end_date
 
   try:
-    page = urllib2.urlopen(url,timeout=10)
+    page = urllib.request.urlopen(url,timeout=10)
     if page.getcode() != 200:
       raise Exception('Failed to load page') 
     html = page.read()
     page.close()
 
   except Exception as e:
-    print('Error fetching price data from ' + url)
+    print(('Error fetching price data from ' + url))
     print('Did you use a valid CoinMarketCap currency?\nIt should be entered exactly as displayed on CoinMarketCap.com (case-insensitive), with dashes in place of spaces.')
     
     if hasattr(e, 'message'):
-      print("Error message: " + e.message)
+      print(("Error message: " + e.message))
     else:
       print(e)
       sys.exit(1)
@@ -130,10 +130,10 @@ def render_csv_data(header, rows):
   """
   Render the data in CSV format.
   """
-  print(','.join(header))
+  print((','.join(header)))
 
   for row in rows:
-    print(','.join(row))
+    print((','.join(row)))
 
 # --------------------------------------------- Util Methods -----------------------------------------------------------
 
